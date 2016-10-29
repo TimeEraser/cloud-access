@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="zju.edu.als.dao.PressureDao">
+    <sql  id="PumpSpeedDataColumn">
+        id,
+        surgeryNo,
+        timestamp,
+        cumulativeTime,
+        bloodPump,
+        separationPump,
+        dialysisPump,
+        tripePump,
+        filtrationPump,
+        circulatingPump,
+        heparinPump,
+        warmer,
+        bloodPumpT,
+        separationPumpT,
+        dialysisPumpT,
+        tripePumpT,
+        filtrationPumpT,
+        circulatingPumpT,
+        heparinPumpT
+    </sql>
+    <resultMap id="PumpSpeedData" type="zju.edu.als.domain.PumpSpeedData" >
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="surgeryNo" property="surgeryNo" jdbcType="VARCHAR" />
+        <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
+        <result column="cumulativeTime" property="cumulativeTime" jdbcType="INTEGER" />
+        <result column="bloodPump" property="bloodPump" jdbcType="INTEGER" />
+        <result column="separationPump" property="separationPump" jdbcType="INTEGER" />
+        <result column="dialysisPump" property="dialysisPump" jdbcType="INTEGER" />
+        <result column="tripePump" property="tripePump" jdbcType="INTEGER" />
+        <result column="filtrationPump" property="filtrationPump" jdbcType="INTEGER" />
+        <result column="circulatingPump" property="circulatingPump" jdbcType="INTEGER" />
+        <result column="heparinPump" property="heparinPump" jdbcType="INTEGER" />
+        <result column="warmer" property="warmer" jdbcType="INTEGER" />
+        <result column="bloodPumpT" property="bloodPumpT" jdbcType="INTEGER" />
+        <result column="separationPumpT" property="separationPumpT" jdbcType="INTEGER" /> <result column="bloodPumpT" property="bloodPumpT" jdbcType="INTEGER" />
+        <result column="dialysisPumpT" property="dialysisPumpT" jdbcType="INTEGER" />
+        <result column="tripePumpT" property="tripePumpT" jdbcType="INTEGER" />
+        <result column="filtrationPumpT" property="filtrationPumpT" jdbcType="INTEGER" />
+        <result column="circulatingPumpT" property="circulatingPumpT" jdbcType="INTEGER" />
+        <result column="heparinPumpT" property="heparinPumpT" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="insertPumpSpeedData" parameterType="zju.edu.als.domain.PumpSpeedData">
+        INSERT INTO
+        PumpSpeedData(
+        surgeryNo,
+        timestamp,
+        cumulativeTime,
+        bloodPump,
+        separationPump,
+        dialysisPump,
+        tripePump,
+        filtrationPump,
+        circulatingPump,
+        heparinPump,
+        warmer,
+        bloodPumpT,
+        separationPumpT,
+        dialysisPumpT,
+        tripePumpT,
+        filtrationPumpT,
+        circulatingPumpT,
+        heparinPumpT
+        )
+        VALUE
+        (#{surgeryNo} ,
+        #{timestamp},
+        #{cumulativeTime},
+        #{bloodPump},
+        #{separationPump},
+        #{dialysisPump},
+        #{tripePump},
+        #{filtrationPump},
+        #{circulatingPump},
+        #{heparinPump},
+        #{warmer},
+        #{bloodPumpT},
+        #{separationPumpT},
+        #{dialysisPumpT},
+        #{tripePumpT},
+        #{filtrationPumpT},
+        #{circulatingPumpT},
+        #{heparinPumpT})
+    </insert>
+
+    <insert id="batchInsertPumpSpeedData" parameterType="java.util.List">
+        INSERT INTO
+        PumpSpeedData(
+        surgeryNo,
+        timestamp,
+        cumulativeTime,
+        bloodPump,
+        separationPump,
+        dialysisPump,
+        tripePump,
+        filtrationPump,
+        circulatingPump,
+        heparinPump,
+        warmer,
+        bloodPumpT,
+        separationPumpT,
+        dialysisPumpT,
+        tripePumpT,
+        filtrationPumpT,
+        circulatingPumpT,
+        heparinPumpT
+        )
+        VALUES
+        <foreach collection="PumpSpeedDataList" item="PumpSpeedData" index="index" separator=",">
+            (#{surgeryNo} ,
+            #{timestamp},
+            #{cumulativeTime},
+            #{bloodPump},
+            #{separationPump},
+            #{dialysisPump},
+            #{tripePump},
+            #{filtrationPump},
+            #{circulatingPump},
+            #{heparinPump},
+            #{warmer},
+            #{bloodPumpT},
+            #{separationPumpT},
+            #{dialysisPumpT},
+            #{tripePumpT},
+            #{filtrationPumpT},
+            #{circulatingPumpT},
+            #{heparinPumpT})
+        </foreach>
+    </insert>
+    <select id="selectPumpSpeedDataBySurgeryNo" parameterType="java.lang.String" resultMap="PumpSpeedData">
+        SELECT
+        <include refid="PumpSpeedDataColumn"/>
+        FROM
+        PumpSpeedData
+        WHERE
+        surgeryNo = #{surgeryNo}
+        ORDER BY
+        timestamp
+    </select>
+    <select id="selectPumpSpeedDataBySurgeryNoWithTimeRange" parameterType="java.util.Map" resultMap="PumpSpeedData">
+        SELECT
+        <include refid="PumpSpeedDataColumn"/>
+        FROM
+        PumpSpeedData
+        WHERE
+        surgeryNo = #{surgeryNo}
+        AND
+        timestamp &gt; #{beginTime}
+        AND
+        timestamp &lt; #{endTime}
+        ORDER BY
+        timestamp
+    </select>
+</mapper>
