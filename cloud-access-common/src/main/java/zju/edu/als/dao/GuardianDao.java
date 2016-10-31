@@ -1,7 +1,7 @@
 package zju.edu.als.dao;
 
 import org.apache.ibatis.annotations.Param;
-import zju.edu.als.domain.GuardianData;
+import zju.edu.als.domain.data.GuardianData;
 
 import java.util.List;
 

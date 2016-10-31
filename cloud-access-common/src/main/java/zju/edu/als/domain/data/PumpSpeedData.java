@@ -1,12 +1,9 @@
-package zju.edu.als.domain;
+package zju.edu.als.domain.data;
 
 /**
  * Created by zzq on 2016/10/27.
  */
-public class PumpSpeedData {
-    private long id;//'主键'
-    private String surgeryNo ;//'手术号'
-    private long time_stamp;//'时间戳'
+public class PumpSpeedData extends DataBase{
     private long cumulativeTime;//'累计时间'
     private int bloodPump;//'血泵'
     private int separationPump;//'分离泵'
@@ -24,31 +21,7 @@ public class PumpSpeedData {
     private int circulatingPumpT;//'CP累计'
     private int heparinPumpT;//'SP累计'
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getSurgeryNo() {
-        return surgeryNo;
-    }
-
-    public void setSurgeryNo(String surgeryNo) {
-        this.surgeryNo = surgeryNo;
-    }
-
-    public long getTime_stamp() {
-        return time_stamp;
-    }
-
-    public void setTime_stamp(long time_stamp) {
-        this.time_stamp = time_stamp;
-    }
-
-    public long getCumulativeTime() {
+   public long getCumulativeTime() {
         return cumulativeTime;
     }
 

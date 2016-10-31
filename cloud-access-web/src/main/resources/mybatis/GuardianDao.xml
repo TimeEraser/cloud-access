@@ -4,7 +4,7 @@
     <sql  id="GuardianDataColumn">
         id,surgeryNo,timestamp,heartRate,systolicPressure,diastolicPressure,bloodOxygen
     </sql>
-    <resultMap id="GuardianData" type="zju.edu.als.domain.GuardianData" >
+    <resultMap id="GuardianData" type="zju.edu.als.domain.data.GuardianData" >
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="surgeryNo" property="surgeryNo" jdbcType="VARCHAR" />
         <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
@@ -14,7 +14,7 @@
         <result column="bloodOxygen" property="bloodOxygen" jdbcType="INTEGER"/>
     </resultMap>
 
-    <insert id="insertGuardianData" parameterType="zju.edu.als.domain.GuardianData">
+    <insert id="insertGuardianData" parameterType="zju.edu.als.domain.data.GuardianData">
         INSERT INTO 
         guardianData(surgeryNo,timestamp,heartRate,systolicPressure,diastolicPressure,bloodOxygen)
         VALUE 

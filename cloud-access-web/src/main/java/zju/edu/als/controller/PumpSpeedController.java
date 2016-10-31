@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zju.edu.als.dao.PumpSpeedDao;
-import zju.edu.als.domain.PumpSpeedData;
-import zju.edu.als.domain.Result;
+import zju.edu.als.domain.data.PumpSpeedData;
+import zju.edu.als.domain.result.Result;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

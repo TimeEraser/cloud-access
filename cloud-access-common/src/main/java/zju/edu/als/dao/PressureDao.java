@@ -1,7 +1,7 @@
 package zju.edu.als.dao;
 
 import org.apache.ibatis.annotations.Param;
-import zju.edu.als.domain.PressureData;
+import zju.edu.als.domain.data.PressureData;
 
 import java.util.List;
 

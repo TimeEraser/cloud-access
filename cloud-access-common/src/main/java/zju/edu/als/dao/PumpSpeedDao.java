@@ -1,7 +1,7 @@
 package zju.edu.als.dao;
 
 import org.apache.ibatis.annotations.Param;
-import zju.edu.als.domain.PumpSpeedData;
+import zju.edu.als.domain.data.PumpSpeedData;
 
 import java.util.List;
 

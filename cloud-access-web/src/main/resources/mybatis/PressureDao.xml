@@ -22,7 +22,7 @@
         circulatingPumpT,
         heparinPumpT
     </sql>
-    <resultMap id="PumpSpeedData" type="zju.edu.als.domain.PumpSpeedData" >
+    <resultMap id="PumpSpeedData" type="zju.edu.als.domain.data.PumpSpeedData" >
         <result column="id" property="id" jdbcType="BIGINT"/>
         <result column="surgeryNo" property="surgeryNo" jdbcType="VARCHAR" />
         <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
@@ -44,7 +44,7 @@
         <result column="heparinPumpT" property="heparinPumpT" jdbcType="INTEGER" />
     </resultMap>
 
-    <insert id="insertPumpSpeedData" parameterType="zju.edu.als.domain.PumpSpeedData">
+    <insert id="insertPumpSpeedData" parameterType="zju.edu.als.domain.data.PumpSpeedData">
         INSERT INTO
         PumpSpeedData(
         surgeryNo,

@@ -1,9 +1,12 @@
-package zju.edu.als.domain;
+package zju.edu.als.domain.result;
+
+import java.io.Serializable;
 
 /**
  * Created by zzq on 2016/10/29.
  */
-public class Result {
+public class Result implements Serializable{
+    private static final long serialVersionUID = 1L;
     private boolean success;
     private String message;
     private Object data;
