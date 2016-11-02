@@ -4,14 +4,14 @@ package zju.edu.als.domain.data;
  * Created by zzq on 2016/10/29.
  */
 public class DataBase {
-    private long id;//'主键'
+    private int id;//'主键'
     private String surgeryNo ;//'手术号'
     private long timestamp;//'时间戳'
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

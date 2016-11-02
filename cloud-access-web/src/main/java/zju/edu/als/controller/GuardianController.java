@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import zju.edu.als.dao.GuardianDao;
 import zju.edu.als.domain.data.GuardianData;
 import zju.edu.als.domain.result.Result;
+import zju.edu.als.monitor.GuardianMonitor;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ public class GuardianController {
     @Resource("guardianDao")
     GuardianDao guardianDao;
 
+    @Resource("guardianMonitor")
+    GuardianMonitor guardianMonitor;
+
     @ModelAttribute(value = "guardianData")
     private GuardianData getGuardianData(HttpServletRequest request){
         String guardianDataStr=request.getParameter("guardianData");
@@ -36,6 +40,7 @@ public class GuardianController {
         GuardianData guardianData;
         try {
             guardianData = JSONObject.parseObject(guardianDataStr, GuardianData.class);
+            guardianMonitor.handleData(guardianData);
         }catch (Exception e){
             logger.error("Invoke getGuardianData JsonParseException ",e);
             return null;
@@ -52,6 +57,7 @@ public class GuardianController {
         List<GuardianData> guardianDataList;
         try {
             guardianDataList = JSONObject.parseObject(guardianDataListStr,new TypeReference<List<GuardianData>>(){});
+            guardianMonitor.handleData(guardianDataList.toArray(new GuardianData[guardianDataList.size()]));
         }catch (Exception e){
             logger.error("Invoke getGuardianDataList JsonParseException ",e);
             return null;
@@ -60,7 +66,7 @@ public class GuardianController {
 
     }
 
-    @RequestMapping("/inset")
+    @RequestMapping("/insert")
     @ResponseBody
     public Result insert(@ModelAttribute(value = "guardianData")GuardianData guardianData){
         if(guardianData==null){

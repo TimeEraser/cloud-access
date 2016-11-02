@@ -12,7 +12,7 @@ public class PumpSpeedData extends DataBase{
     private int filtrationPump;//'过滤泵'
     private int circulatingPump;//'累计泵'
     private int heparinPump;//'肝素泵'
-    private int warmer;//'加热温度'
+    private double warmer;//'加热温度'
     private int bloodPumpT;//'血液泵累计'
     private int separationPumpT;//'FP累计'
     private int dialysisPumpT;//'DP累计'
@@ -85,11 +85,11 @@ public class PumpSpeedData extends DataBase{
         this.heparinPump = heparinPump;
     }
 
-    public int getWarmer() {
+    public double getWarmer() {
         return warmer;
     }
 
-    public void setWarmer(int warmer) {
+    public void setWarmer(double warmer) {
         this.warmer = warmer;
     }
 
