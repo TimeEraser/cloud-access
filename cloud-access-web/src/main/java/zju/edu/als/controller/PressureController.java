@@ -6,15 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zju.edu.als.dao.PressureDao;
 import zju.edu.als.domain.data.PressureData;
 import zju.edu.als.domain.result.Result;
 import zju.edu.als.monitor.PressureMonitor;
+import zju.edu.als.util.DateFormatUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -91,5 +94,39 @@ public class PressureController {
             return Result.fail(e.getMessage());
         }
         return Result.ok();
+    }
+    @RequestMapping("/{surgeryNo}/getAll")
+    @ResponseBody
+    public Result getAllBySurgeryNo(@PathVariable("surgeryNo")String surgeryNo){
+        List<PressureData> pressureDataList;
+        try {
+            pressureDataList = pressureDao.selectPressureDataBySurgeryNo(surgeryNo);
+            return Result.ok(pressureDataList);
+        }catch (Exception e){
+            logger.error("Invoke getAllBySurgeryNo",e);
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/{surgeryNo}/{timeRange}")
+    @ResponseBody
+    public Result getAllBySurgeryNoWithTimeRange(@PathVariable("surgeryNo")String surgeryNo,@PathVariable("timeRange")String timeRange){
+        List<PressureData> pressureDataList;
+        long beginTime;
+        long endTime;
+        try{
+            String[] times=timeRange.split("~");
+            beginTime= DateFormatUtil.parse(times[0]);
+            endTime= DateFormatUtil.parse(times[1]);
+        } catch (ParseException e) {
+            logger.error(timeRange +"parse exception");
+            return Result.fail(e);
+        }
+        try {
+            pressureDataList = pressureDao.selectPressureDataBySurgeryNoWithTimeRange(surgeryNo,beginTime,endTime);
+            return Result.ok(pressureDataList);
+        }catch (Exception e){
+            logger.error("Invoke getAllBySurgeryNoWithTimeRange",e);
+            return Result.fail(e);
+        }
     }
 }

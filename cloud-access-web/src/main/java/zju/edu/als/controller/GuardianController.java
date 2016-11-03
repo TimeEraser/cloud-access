@@ -6,15 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zju.edu.als.dao.GuardianDao;
 import zju.edu.als.domain.data.GuardianData;
 import zju.edu.als.domain.result.Result;
 import zju.edu.als.monitor.GuardianMonitor;
+import zju.edu.als.util.DateFormatUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -40,7 +43,6 @@ public class GuardianController {
         GuardianData guardianData;
         try {
             guardianData = JSONObject.parseObject(guardianDataStr, GuardianData.class);
-            guardianMonitor.handleData(guardianData);
         }catch (Exception e){
             logger.error("Invoke getGuardianData JsonParseException ",e);
             return null;
@@ -57,7 +59,6 @@ public class GuardianController {
         List<GuardianData> guardianDataList;
         try {
             guardianDataList = JSONObject.parseObject(guardianDataListStr,new TypeReference<List<GuardianData>>(){});
-            guardianMonitor.handleData(guardianDataList.toArray(new GuardianData[guardianDataList.size()]));
         }catch (Exception e){
             logger.error("Invoke getGuardianDataList JsonParseException ",e);
             return null;
@@ -74,6 +75,7 @@ public class GuardianController {
         }
         try {
             guardianDao.insertGuardianData(guardianData);
+            guardianMonitor.handleData(guardianData);
         }catch (Exception e){
             return Result.fail(e.getMessage());
         }
@@ -88,9 +90,45 @@ public class GuardianController {
         }
         try {
             guardianDao.batchInsertGuardianData(guardianDataList);
+            guardianMonitor.handleData(guardianDataList.toArray(new GuardianData[guardianDataList.size()]));
         }catch (Exception e){
             return Result.fail(e.getMessage());
         }
         return Result.ok();
+    }
+
+    @RequestMapping("/{surgeryNo}/getAll")
+    @ResponseBody
+    public Result getAllBySurgeryNo(@PathVariable("surgeryNo")String surgeryNo){
+        List<GuardianData> guardianDataList;
+        try {
+            guardianDataList = guardianDao.selectGuardianDataBySurgeryNo(surgeryNo);
+            return Result.ok(guardianDataList);
+        }catch (Exception e){
+            logger.error("Invoke getAllBySurgeryNo",e);
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/{surgeryNo}/{timeRange}")
+    @ResponseBody
+    public Result getAllBySurgeryNoWithTimeRange(@PathVariable("surgeryNo")String surgeryNo,@PathVariable("timeRange")String timeRange){
+        List<GuardianData> guardianDataList;
+        long beginTime;
+        long endTime;
+        try{
+            String[] times=timeRange.split("~");
+            beginTime= DateFormatUtil.parse(times[0]);
+            endTime= DateFormatUtil.parse(times[1]);
+        } catch (ParseException e) {
+            logger.error(timeRange +"parse exception");
+            return Result.fail(e);
+        }
+        try {
+            guardianDataList = guardianDao.selectGuardianDataBySurgeryNoWithTimeRange(surgeryNo,beginTime,endTime);
+            return Result.ok(guardianDataList);
+        }catch (Exception e){
+            logger.error("Invoke getAllBySurgeryNoWithTimeRange",e);
+            return Result.fail(e);
+        }
     }
 }

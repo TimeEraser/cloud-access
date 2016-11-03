@@ -85,4 +85,7 @@ public class MonitorConfig implements SmartLifecycle{
             return Result.fail(e.getMessage());
         }
     }
+    public Result getAllSettings(){
+        return Result.ok(alarmSettings);
+    }
 }
