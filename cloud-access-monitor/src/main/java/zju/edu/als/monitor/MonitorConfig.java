@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class MonitorConfig implements SmartLifecycle{
 
-    @Resource("alarmSettingDao")
+    @Resource(name = "alarmSettingDao")
     private AlarmSettingDao alarmSettingDao;
 
     private volatile boolean isRunning = false;

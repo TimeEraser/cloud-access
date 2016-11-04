@@ -1,17 +1,20 @@
 package zju.edu.als.monitor;
 
 import org.springframework.context.SmartLifecycle;
+import org.springframework.stereotype.Component;
 import zju.edu.als.domain.data.DataBase;
 
 import javax.annotation.Resource;
 
+
 /**
  * Created by zzq on 2016/10/29.
  */
+@Component
 public abstract class BaseMonitor implements SmartLifecycle{
 
-    @Resource("monitorConfig")
-    MonitorConfig monitorConfig;
+    @Resource(name = "monitorConfig")
+    protected MonitorConfig monitorConfig;
 
     public void handleData(DataBase... dataBases){
         for (DataBase dataBase:

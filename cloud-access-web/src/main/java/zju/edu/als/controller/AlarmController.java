@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/alarm")
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
+
     @Resource("monitorConfig")
     private MonitorConfig monitorConfig;
+
     @ModelAttribute("alarmSetting")
     private AlarmSetting getAlarmSetting(HttpServletRequest request){
         String alarmSettingStr=request.getParameter("alarmSetting");
