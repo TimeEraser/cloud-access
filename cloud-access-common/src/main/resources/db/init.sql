@@ -74,3 +74,18 @@ INSERT INTO alarmSettingData(alarmItem, ceiling, floor, note) VALUES
   ('filtrationPump',100,50,''),
   ('circulatingPump',100,50,''),
   ('warmer',100,50,'')
+DROP TABLE IF EXISTS surgery;
+CREATE TABLE `surgery`(
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `surgeryNo` varchar(255) NOT NULL COMMENT '手术号',
+  `patient` varchar(255)  COMMENT '病人',
+  `patientId` varchar(255)  COMMENT '病人身份证号',
+  `doctor` varchar(255) COMMENT '主治医生',
+  `doctorId` VARCHAR(255)  COMMENT '主治医生Id',
+  `description` VARCHAR(255)  COMMENT '病情描述',
+  `state` INT NOT NULL DEFAULT 0 COMMENT '手术状态',
+  `alarmPerson` varchar(255) NOT NULL COMMENT '报警人',
+  `lastAlarm` BIGINT NOT NULL DEFAULT 0 COMMENT '上次报警时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`surgeryNo`)
+);

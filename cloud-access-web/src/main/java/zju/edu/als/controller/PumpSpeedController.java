@@ -28,10 +28,10 @@ import java.util.List;
 public class PumpSpeedController {
     private static final Logger logger = LoggerFactory.getLogger(PressureController.class);
 
-    @Resource("pumpSpeedDao")
+    @Resource(name = "pumpSpeedDao")
     PumpSpeedDao pumpSpeedDao;
 
-    @Resource("pumpSpeedMonitor")
+    @Resource(name = "pumpSpeedMonitor")
     PumpSpeedMonitor pumpSpeedMonitor;
 
     @ModelAttribute(value = "pumpSpeedData")

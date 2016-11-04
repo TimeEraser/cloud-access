@@ -59,25 +59,18 @@ public class PressureMonitor extends BaseMonitor {
                 alarmMessage.append("跨膜压数据不在正常范围");
                 alarm = true;
             }
-            if (alarm) {
-
-            }
         }
     }
 
-    @Override
-    protected void postHandle(DataBase dataBase) {
-
-    }
 
     @Override
     public boolean isAutoStartup() {
-        return false;
+        return true;
     }
 
     @Override
     public void stop(Runnable callback) {
-
+        callback.run();
     }
 
     @Override

@@ -28,10 +28,10 @@ import java.util.List;
 public class GuardianController {
     private static final Logger logger = LoggerFactory.getLogger(GuardianController.class);
 
-    @Resource("guardianDao")
+    @Resource(name = "guardianDao")
     GuardianDao guardianDao;
 
-    @Resource("guardianMonitor")
+    @Resource(name = "guardianMonitor")
     GuardianMonitor guardianMonitor;
 
     @ModelAttribute(value = "guardianData")

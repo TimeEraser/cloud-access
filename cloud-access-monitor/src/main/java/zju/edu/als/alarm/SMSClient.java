@@ -1,11 +1,11 @@
 package zju.edu.als.alarm;
 
+import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -15,19 +15,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static zju.edu.als.alarm.AlarmConfig.*;
 
 /**
  * Created by zzq on 2016/11/3.
  */
-public class FetionClient {
-    private static final Logger logger = LoggerFactory.getLogger(FetionClient.class);
+public class SMSClient {
+    private static final Logger logger = LoggerFactory.getLogger(SMSClient.class);
     private static PoolingHttpClientConnectionManager cm ;
     private static RequestConfig requestConfig;
     private static CloseableHttpClient httpClient;
-    private static final String url="http://w.ibtf.net/f.php";
+    private static final String url="http://utf8.sms.webchinese.cn/";
     static {
         cm= new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(100);
@@ -42,16 +43,15 @@ public class FetionClient {
                 .setDefaultRequestConfig(requestConfig)
                 .build();
     }
-    public static void sendMessage(String phone,String pwd,String to,String msg){
+    public static void sendMessage(String smsMob,String smsText){
         List<NameValuePair> nameValuePairList= new ArrayList<>();
-        nameValuePairList.add(new BasicNameValuePair("phone", phone));
-        nameValuePairList.add(new BasicNameValuePair("pwd", pwd));
-        nameValuePairList.add(new BasicNameValuePair("to", to));
-        nameValuePairList.add(new BasicNameValuePair("msg", msg));
-        nameValuePairList.add(new BasicNameValuePair("type", "0"));
+        nameValuePairList.add(new BasicNameValuePair("Uid", ALARM_UID));
+        nameValuePairList.add(new BasicNameValuePair("key", ALARM_KEY));
+        nameValuePairList.add(new BasicNameValuePair("smsMob", smsMob));
+        nameValuePairList.add(new BasicNameValuePair("smsText", smsText));
         try {
-            HttpPost request = new HttpPost(url);
-            request.setEntity(new UrlEncodedFormEntity(nameValuePairList));
+            String params = EntityUtils.toString(new UrlEncodedFormEntity(nameValuePairList, Consts.UTF_8));
+            HttpGet request = new HttpGet(url+"?"+params);
             CloseableHttpResponse response  = httpClient.execute(request);
             try {
                 response.close();

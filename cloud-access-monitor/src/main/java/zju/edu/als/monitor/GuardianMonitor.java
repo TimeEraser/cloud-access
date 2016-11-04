@@ -19,8 +19,7 @@ public class GuardianMonitor extends BaseMonitor{
 
     @Override
     protected void monitorVerify(DataBase dataBase) {
-        StringBuilder alarmMessage=new StringBuilder();
-        Boolean alarm = false;
+        alarmMessage=new StringBuilder();
         if(dataBase instanceof GuardianData){
            AlarmSetting heartRateAlarmSetting=monitorConfig.getAlarmSetting("heartRate");
            AlarmSetting systolicPressureAlarmSetting=monitorConfig.getAlarmSetting("systolicPressure");
@@ -47,25 +46,18 @@ public class GuardianMonitor extends BaseMonitor{
                alarmMessage.append("血氧数据不在正常范围");
                alarm=true;
            }
-           if(alarm){
-
-           }
        }
     }
 
-    @Override
-    protected void postHandle(DataBase dataBase) {
-
-    }
 
     @Override
     public boolean isAutoStartup() {
-        return false;
+        return true;
     }
 
     @Override
     public void stop(Runnable callback) {
-
+        callback.run();
     }
 
     @Override

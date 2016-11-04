@@ -72,25 +72,17 @@ public class PumpSpeedMonitor extends BaseMonitor {
                 alarmMessage.append("加热温度数据不在正常范围");
                 alarm = true;
             }
-            if (alarm) {
-
-            }
         }
     }
 
     @Override
-    protected void postHandle(DataBase dataBase) {
-
-    }
-
-    @Override
     public boolean isAutoStartup() {
-        return false;
+        return true;
     }
 
     @Override
     public void stop(Runnable callback) {
-
+        callback.run();
     }
 
     @Override

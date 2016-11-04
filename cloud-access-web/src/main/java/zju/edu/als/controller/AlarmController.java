@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AlarmController {
     private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 
-    @Resource("monitorConfig")
+    @Resource(name = "monitorConfig")
     private MonitorConfig monitorConfig;
 
     @ModelAttribute("alarmSetting")

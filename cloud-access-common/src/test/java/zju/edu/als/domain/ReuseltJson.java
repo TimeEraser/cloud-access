@@ -11,6 +11,6 @@ import zju.edu.als.domain.result.Result;
 public class ReuseltJson {
     @Test
     public void resultJsonTest(){
-        System.out.print(JSONObject.toJSON(Result.fail("Null Point")));
+        System.out.print(JSONObject.toJSON(Result.ok()));
     }
 }

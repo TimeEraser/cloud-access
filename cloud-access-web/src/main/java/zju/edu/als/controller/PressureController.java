@@ -28,10 +28,10 @@ import java.util.List;
 public class PressureController {
     private static final Logger logger = LoggerFactory.getLogger(PressureController.class);
 
-    @Resource("pressureDao")
+    @Resource(name = "pressureDao")
     PressureDao pressureDao;
 
-    @Resource("pressureMonitor")
+    @Resource(name = "pressureMonitor")
     PressureMonitor pressureMonitor;
 
     @ModelAttribute(value = "pressureData")

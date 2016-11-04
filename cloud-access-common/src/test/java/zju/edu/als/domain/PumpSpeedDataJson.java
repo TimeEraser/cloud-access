@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
 import zju.edu.als.domain.data.PressureData;
 import zju.edu.als.domain.data.PumpSpeedData;
+import zju.edu.als.domain.result.Result;
 
 /**
  * Created by zzq on 2016/11/1.
@@ -27,6 +28,6 @@ public class PumpSpeedDataJson {
         pumpSpeedData.setHeparinPumpT(1000);
         pumpSpeedData.setSeparationPumpT(1000);
         pumpSpeedData.setTripePumpT(1000);
-        System.out.println(JSONObject.toJSON(pumpSpeedData));
+        System.out.println(JSONObject.toJSON(Result.ok(pumpSpeedData)));
     }
 }
