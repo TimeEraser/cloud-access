@@ -1,6 +1,7 @@
 package zju.edu.als.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import zju.edu.als.monitor.MonitorConfig;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by zzq on 2016/11/2.
@@ -25,25 +27,25 @@ public class AlarmController {
     @Resource(name = "monitorConfig")
     private MonitorConfig monitorConfig;
 
-    @ModelAttribute("alarmSetting")
-    private AlarmSetting getAlarmSetting(HttpServletRequest request){
-        String alarmSettingStr=request.getParameter("alarmSetting");
-        if(alarmSettingStr==null){
+    @ModelAttribute("alarmSettingList")
+    private List<AlarmSetting> getAlarmSettingList(HttpServletRequest request){
+        String alarmSettingListStr=request.getParameter("alarmSettingList");
+        if(alarmSettingListStr==null){
             return null;
         }
-        AlarmSetting alarmSetting;
+        List<AlarmSetting> alarmSettingList;
         try {
-            alarmSetting = JSONObject.parseObject(alarmSettingStr, AlarmSetting.class);
+            alarmSettingList = JSONObject.parseObject(alarmSettingListStr, new TypeReference<List<AlarmSetting>>(){});
         }catch (Exception e){
-            logger.error("Invoke getGuardianData JsonParseException ",e);
+            logger.error("Invoke getAlarmSettingList JsonParseException ",e);
             return null;
         }
-        return alarmSetting;
+        return alarmSettingList;
     }
     @RequestMapping("/updateAlarmSetting")
     @ResponseBody
-    public Result updateAlarmSetting(@ModelAttribute("alarmSetting")AlarmSetting alarmSetting){
-        return monitorConfig.updateAlarmSetting(alarmSetting);
+    public Result updateAlarmSettings(@ModelAttribute("alarmSettingList")List<AlarmSetting> alarmSettingList){
+        return monitorConfig.updateAlarmSettings(alarmSettingList);
     }
     
     @RequestMapping("/getAll")
@@ -51,4 +53,5 @@ public class AlarmController {
     public Result getAll(){
         return monitorConfig.getAllSettings();   
     }
+
 }

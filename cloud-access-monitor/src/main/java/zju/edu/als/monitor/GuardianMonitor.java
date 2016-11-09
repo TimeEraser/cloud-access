@@ -60,10 +60,7 @@ public class GuardianMonitor extends BaseMonitor{
         callback.run();
     }
 
-    @Override
-    public void start() {
-
-    }
+   
 
     @Override
     public void stop() {

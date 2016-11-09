@@ -16,9 +16,23 @@
 
     <insert id="insertGuardianData" parameterType="zju.edu.als.domain.data.GuardianData">
         INSERT INTO 
-        guardianData(surgeryNo,timestamp,heartRate,systolicPressure,diastolicPressure,bloodOxygen)
+        guardianData(
+        surgeryNo,
+        timestamp,
+        heartRate,
+        systolicPressure,
+        diastolicPressure,
+        bloodOxygen
+        )
         VALUE 
-        (#{surgeryNo} ,#{timestamp},#{heartRate},#{systolicPressure},#{diastolicPressure},#{bloodOxygen})
+        (
+        #{guardianData.surgeryNo} ,
+        #{guardianData.timestamp},
+        #{guardianData.heartRate},
+        #{guardianData.systolicPressure},
+        #{guardianData.diastolicPressure},
+        #{guardianData.bloodOxygen}
+        )
     </insert>
 
     <insert id="batchInsertGuardianData" parameterType="java.util.List">

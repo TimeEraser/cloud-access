@@ -9,6 +9,7 @@ public class AlarmSetting {
     private double ceiling;
     private double floor;
     private String note;
+    private int type;
 
     public int getId() {
         return id;
@@ -48,5 +49,13 @@ public class AlarmSetting {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

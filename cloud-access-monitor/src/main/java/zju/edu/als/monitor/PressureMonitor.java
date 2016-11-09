@@ -72,11 +72,7 @@ public class PressureMonitor extends BaseMonitor {
     public void stop(Runnable callback) {
         callback.run();
     }
-
-    @Override
-    public void start() {
-
-    }
+    
 
     @Override
     public void stop() {

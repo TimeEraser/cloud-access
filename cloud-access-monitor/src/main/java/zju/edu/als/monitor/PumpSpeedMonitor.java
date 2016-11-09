@@ -86,11 +86,6 @@ public class PumpSpeedMonitor extends BaseMonitor {
     }
 
     @Override
-    public void start() {
-
-    }
-
-    @Override
     public void stop() {
 
     }

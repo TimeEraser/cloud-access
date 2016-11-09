@@ -7,6 +7,7 @@ import zju.edu.als.domain.alarm.AlarmSetting;
 import zju.edu.als.domain.result.Result;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -61,17 +62,27 @@ public class MonitorConfig implements SmartLifecycle{
     public AlarmSetting getAlarmSetting(String alarmItem){
         return alarmSettings.get(alarmItem);
     }
-    public Result updateAlarmSetting(AlarmSetting alarmSetting){
-        if(!alarmSettings.containsKey(alarmSetting.getAlarmItem())){
+    public Result updateAlarmSettings(List<AlarmSetting> alarmSettingList){
+        List<AlarmSetting> alarmSettingWillUpdate = new ArrayList<>();
+        for (AlarmSetting  alarmSetting:alarmSettingList) {
+            if(alarmSettings.containsKey(alarmSetting.getAlarmItem())){
+                alarmSettingWillUpdate.add(alarmSetting);
+            }
+        }
+        if(alarmSettingWillUpdate.size()==0){
             return Result.fail("Null Point");
         }
         try {
-            alarmSettingDao.updateAlarmSetting(alarmSetting);
-            alarmSettings.put(alarmSetting.getAlarmItem(),alarmSetting);
+            alarmSettingDao.updateAlarmSettings(alarmSettingWillUpdate);
+            for (AlarmSetting alarmSetting:alarmSettingWillUpdate
+                 ) {
+                alarmSettings.put(alarmSetting.getAlarmItem(),alarmSetting);
+            }
             return Result.ok();
         }catch (Exception e){
-            return Result.fail(e.getMessage());
+            return Result.fail(e);
         }
+
     }
     public Result insertAlarmSetting(AlarmSetting alarmSetting){
         if(alarmSettings.containsKey(alarmSetting.getAlarmItem())){

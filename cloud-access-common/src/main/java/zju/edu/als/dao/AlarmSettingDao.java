@@ -11,7 +11,7 @@ import java.util.List;
 public interface AlarmSettingDao {
     List<AlarmSetting> selectAllAlarmSettings();
 
-    Boolean updateAlarmSetting(@Param("alarmSetting") AlarmSetting alarmSetting);
+    Boolean updateAlarmSettings(@Param("alarmSettingList") List<AlarmSetting> alarmSettingList);
 
     Boolean insertAlarmSetting(@Param("alarmSetting") AlarmSetting alarmSetting);
 }
