@@ -14,11 +14,17 @@ public interface SurgeryDao {
 
     public boolean updateSurgery(@Param("surgery")Surgery surgery);
 
-    public boolean endSurgery(@Param("surgeryNo")String surgeryNo);
+    public boolean beginSurgery(@Param("surgery")Surgery surgery);
+
+    public boolean endSurgery(@Param("surgery")Surgery surgery);
+
+    public List<String> selectDistinctDoctor();
+
+    public List<String> selectDistinctPatient();
 
     public List<Surgery> selectSurgeryByState(@Param("state")int state);
 
-    public List<Surgery> selectAllSurgery();
+    public List<Surgery> selectSurgeryDynamic(@Param("startTime")long startTime,@Param("endTime")long endTime,@Param("doctor")String doctor,@Param("patient")String patient);
 
     public Surgery selectSurgeryBySurgeryNo(@Param("surgeryNo")String surgeryNo);
 

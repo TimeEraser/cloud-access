@@ -9,7 +9,8 @@ import java.util.Locale;
  * Created by zzq on 16/8/26.
  */
 public class DateFormatUtil {
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS", Locale.ENGLISH);
+    public static Long DATE_TIME = Long.valueOf(1000*60*60*24);
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
     public static String format(long ms){
         return dateFormat.format(new Date(ms));
     }

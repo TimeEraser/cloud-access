@@ -1,19 +1,26 @@
 package zju.edu.als.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import zju.edu.als.constant.SurgeryState;
 import zju.edu.als.dao.SurgeryDao;
 import zju.edu.als.domain.result.Result;
 import zju.edu.als.domain.surgery.Surgery;
+import zju.edu.als.util.DateFormatUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static zju.edu.als.util.DateFormatUtil.DATE_TIME;
 
 /**
  * Created by zzq on 2016/10/29.
@@ -40,12 +47,13 @@ public class SurgeryController {
         }
 
     }
-    @RequestMapping("/beginSurgery")
+    @RequestMapping("/newSurgery")
     @ResponseBody
-    public Result beginSurgery(@ModelAttribute("surgery") Surgery surgery){
+    public Result newSurgery(@ModelAttribute("surgery") Surgery surgery){
         if(surgery==null||surgery.getSurgeryNo()==null){
             return Result.fail("Null Point");
         }
+        surgery.setState(SurgeryState.INIT.ordinal());
         try{
             surgeryDao.insertSurgery(surgery);
             return Result.ok();
@@ -53,20 +61,38 @@ public class SurgeryController {
             return Result.fail(e);
         }
     }
-    @RequestMapping("/endSurgery")
+
+    @RequestMapping("/beginSurgery")
     @ResponseBody
-    public Result endSurgery(@ModelAttribute("surgery") Surgery surgery){
+    public Result beginSurgery(@ModelAttribute("surgery") Surgery surgery){
         if(surgery==null||surgery.getSurgeryNo()==null){
             return Result.fail("Null Point");
         }
+        surgery.setState(SurgeryState.EXECUTING.ordinal());
+        surgery.setStartTime(System.currentTimeMillis());
         try{
-            surgeryDao.endSurgery(surgery.getSurgeryNo());
+            surgeryDao.beginSurgery(surgery);
             return Result.ok();
         }catch (Exception e){
             return Result.fail(e);
         }
     }
 
+    @RequestMapping("/endSurgery")
+    @ResponseBody
+    public Result endSurgery(@ModelAttribute("surgery") Surgery surgery){
+        if(surgery==null||surgery.getSurgeryNo()==null){
+            return Result.fail("Null Point");
+        }
+        surgery.setState(SurgeryState.COMPLETE.ordinal());
+        surgery.setEndTime(System.currentTimeMillis());
+        try{
+            surgeryDao.endSurgery(surgery);
+            return Result.ok();
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
     @RequestMapping("/updateSurgery")
     @ResponseBody
     public Result updateSurgery(@ModelAttribute("surgery") Surgery surgery){
@@ -81,14 +107,42 @@ public class SurgeryController {
         }
     }
 
-    @RequestMapping("/getAll")
+    @RequestMapping("/persons")
     @ResponseBody
-    public Result getAll(){
+    public Result persons(){
         try {
-            List<Surgery> surgeryList=surgeryDao.selectAllSurgery();
+            List<String> doctors = surgeryDao.selectDistinctDoctor();
+            List<String> patients = surgeryDao.selectDistinctPatient();
+            Map<String,List<String>> persons = new HashMap<>();
+            persons.put("doctors",doctors);
+            persons.put("patients",patients);
+            return Result.ok(persons);
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/search")
+    @ResponseBody
+    public Result search(HttpServletRequest request){
+        String doctor = request.getParameter("doctor");
+        String patient= request.getParameter("patient");
+        Long startTime= System.currentTimeMillis()-DATE_TIME*3;
+        Long endTime = System.currentTimeMillis();
+        try {
+            if (request.getParameter("timeRange") == null) {
+                endTime = System.currentTimeMillis();
+            } else {
+                String[] timeRangeStr= request.getParameter("timeRange").split("~");
+                startTime=  DateFormatUtil.parse(timeRangeStr[0]);
+                endTime = DateFormatUtil.parse(timeRangeStr[1]);
+            }
+        } catch (Exception e) {
+            logger.error("解析前端timeRange失败,使用默认配置",e);
+        }
+        try {
+            List<Surgery> surgeryList = surgeryDao.selectSurgeryDynamic(startTime,endTime,doctor,patient);
             return Result.ok(surgeryList);
         }catch (Exception e){
-            logger.error("Invoke selectAllSurgery Failed",e);
             return Result.fail(e);
         }
     }

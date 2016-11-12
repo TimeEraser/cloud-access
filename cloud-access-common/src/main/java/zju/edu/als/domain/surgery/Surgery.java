@@ -6,6 +6,8 @@ package zju.edu.als.domain.surgery;
 public class Surgery {
     private int id;
     private String surgeryNo;
+    private long startTime;
+    private long endTime;
     private String patient;
     private String patientId;
     private String doctor;
@@ -29,6 +31,22 @@ public class Surgery {
 
     public void setSurgeryNo(String surgeryNo) {
         this.surgeryNo = surgeryNo;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 
     public String getPatient() {
