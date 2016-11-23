@@ -103,7 +103,7 @@
         WHERE
         1=1
     </select>
-    <select id="selectSurgeryByState" parameterType="java.lang.Integer">
+    <select id="selectSurgeryByState" parameterType="java.util.Map" resultMap="Surgery">
         SELECT
         <include refid="SurgeryColumn"/>
         FROM

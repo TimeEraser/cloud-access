@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 import zju.edu.als.alarm.AlarmCenter;
+import zju.edu.als.domain.alarm.AlarmSetting;
 import zju.edu.als.domain.data.DataBase;
 import javax.annotation.Resource;
 /**
@@ -21,7 +22,6 @@ public abstract class BaseMonitor implements SmartLifecycle{
     protected HeartBeat heartBeat;
     protected volatile boolean isRunning = false;
     protected  Boolean needThresholdAlarm = false;
-    protected StringBuilder alarmMessage;
     public void handleData(DataBase... dataBases){
         for (DataBase dataBase:
              dataBases) {
@@ -35,11 +35,7 @@ public abstract class BaseMonitor implements SmartLifecycle{
 
     protected abstract void preHandle(DataBase dataBase);
     protected abstract void monitorVerify(DataBase dataBase);
-    protected  void postHandle(DataBase dataBase){
-        if(needThresholdAlarm){
-            alarmCenter.sendAlarm(dataBase.getSurgeryNo(),alarmMessage.toString());
-        }
-    }
+    protected abstract void postHandle(DataBase dataBase);
     @Override
     public boolean isAutoStartup() {
         return true;
@@ -70,7 +66,13 @@ public abstract class BaseMonitor implements SmartLifecycle{
     public int getPhase() {
         return 2;
     }
-
+    protected void checkThreshold(AlarmSetting alarmSetting,double value,StringBuilder messageBuilder){
+        if(alarmSetting.getCeiling()<value){
+            messageBuilder.append(alarmSetting.getAlarmItem()).append("超出正常范围\n");
+        }else if(alarmSetting.getFloor()>value){
+            messageBuilder.append(alarmSetting.getAlarmItem()).append("低于正常范围\n");
+        }
+    }
 }
 
 

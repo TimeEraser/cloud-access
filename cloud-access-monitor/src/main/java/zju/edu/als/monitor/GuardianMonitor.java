@@ -19,33 +19,24 @@ public class GuardianMonitor extends BaseMonitor{
 
     @Override
     protected void monitorVerify(DataBase dataBase) {
-        alarmMessage=new StringBuilder();
+        StringBuilder alarmMessage=new StringBuilder();
         if(dataBase instanceof GuardianData){
-           AlarmSetting heartRateAlarmSetting=monitorConfig.getAlarmSetting("heartRate");
-           AlarmSetting systolicPressureAlarmSetting=monitorConfig.getAlarmSetting("systolicPressure");
-           AlarmSetting diastolicPressureAlarmSetting=monitorConfig.getAlarmSetting("diastolicPressure");
-           AlarmSetting bloodOxygenAlarmSetting=monitorConfig.getAlarmSetting("bloodOxygen");
-           if(heartRateAlarmSetting.getCeiling()<((GuardianData) dataBase).getHeartRate()
-                   ||heartRateAlarmSetting.getFloor()>((GuardianData) dataBase).getHeartRate()){
-               alarmMessage.append("心率数据不在正常范围");
-               needThresholdAlarm=true;
-           }
-           if(systolicPressureAlarmSetting.getCeiling()<((GuardianData) dataBase).getSystolicPressure()
-                   ||systolicPressureAlarmSetting.getFloor()>((GuardianData) dataBase).getSystolicPressure()){
-               alarmMessage.append("收缩压数据不在正常范围");
-               needThresholdAlarm=true;
-           }
-           if(diastolicPressureAlarmSetting.getCeiling()<((GuardianData) dataBase).getDiastolicPressure()
-                   ||diastolicPressureAlarmSetting.getFloor()>((GuardianData) dataBase).getDiastolicPressure()
-                   ){
-               alarmMessage.append("舒张压数据不在正常范围");
-               needThresholdAlarm=true;
-           }
-           if(bloodOxygenAlarmSetting.getCeiling()<((GuardianData) dataBase).getBloodOxygen()
-               ||bloodOxygenAlarmSetting.getFloor()>((GuardianData) dataBase).getBloodOxygen()){
-               alarmMessage.append("血氧数据不在正常范围");
-               needThresholdAlarm=true;
-           }
+            AlarmSetting heartRateAlarmSetting=monitorConfig.getAlarmSetting("heartRate");
+            AlarmSetting systolicPressureAlarmSetting=monitorConfig.getAlarmSetting("systolicPressure");
+            AlarmSetting diastolicPressureAlarmSetting=monitorConfig.getAlarmSetting("diastolicPressure");
+            AlarmSetting bloodOxygenAlarmSetting=monitorConfig.getAlarmSetting("bloodOxygen");
+            checkThreshold(heartRateAlarmSetting,((GuardianData) dataBase).getHeartRate(),alarmMessage);
+            checkThreshold(systolicPressureAlarmSetting,((GuardianData) dataBase).getSystolicPressure(),alarmMessage);
+            checkThreshold(diastolicPressureAlarmSetting,((GuardianData) dataBase).getDiastolicPressure(),alarmMessage);
+            checkThreshold(bloodOxygenAlarmSetting,((GuardianData) dataBase).getBloodOxygen(),alarmMessage);
        }
+       if(alarmMessage.length()>0){
+           alarmCenter.sendAlarm(dataBase.getSurgeryNo(),alarmMessage.toString());
+       }
+    }
+
+    @Override
+    protected void postHandle(DataBase dataBase) {
+
     }
 }
