@@ -14,7 +14,7 @@ public interface SurgeryDao {
 
     public boolean updateSurgery(@Param("surgery")Surgery surgery);
 
-    public boolean beginSurgery(@Param("surgery")Surgery surgery);
+    public boolean startSurgery(@Param("surgery")Surgery surgery);
 
     public boolean endSurgery(@Param("surgery")Surgery surgery);
 

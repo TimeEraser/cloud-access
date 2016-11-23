@@ -56,22 +56,21 @@
         WHERE
         surgeryNo=#{surgery.surgeryNo}
     </update>
-
+    <update id="startSurgery"  parameterType="zju.edu.als.domain.surgery.Surgery">
+        UPDATE
+        surgery
+        SET
+        state = #{surgery.state},
+        startTime = #{surgery.startTime}
+        WHERE
+        surgeryNo = #{surgery.surgeryNo}
+    </update>
     <update id="endSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
         UPDATE
         surgery
         SET
         state = #{surgery.state},
         endTime = #{surgery.endTime}
-        WHERE
-        surgeryNo = #{surgery.surgeryNo}
-    </update>
-    <update id="startSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
-        UPDATE
-        surgery
-        SET
-        state = #{surgery.state},
-        startTime = #{surgery.startTime}
         WHERE
         surgeryNo = #{surgery.surgeryNo}
     </update>

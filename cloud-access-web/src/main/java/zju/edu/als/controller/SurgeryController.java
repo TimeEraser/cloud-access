@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import zju.edu.als.constant.SurgeryState;
@@ -55,40 +56,51 @@ public class SurgeryController {
         }
         surgery.setState(SurgeryState.INIT.ordinal());
         try{
-            surgeryDao.insertSurgery(surgery);
-            return Result.ok();
+            Boolean success=surgeryDao.insertSurgery(surgery);
+            if(success==true){
+                return Result.ok();
+            }else {
+                return Result.fail("Not exist");
+            }
+
         }catch (Exception e){
             return Result.fail(e);
         }
     }
 
-    @RequestMapping("/beginSurgery")
+    @RequestMapping("/{surgeryNo}/start")
     @ResponseBody
-    public Result beginSurgery(@ModelAttribute("surgery") Surgery surgery){
-        if(surgery==null||surgery.getSurgeryNo()==null){
-            return Result.fail("Null Point");
-        }
+    public Result startSurgery(@PathVariable("surgeryNo")String surgeryNo){
+        Surgery surgery = new Surgery();
+        surgery.setSurgeryNo(surgeryNo);
         surgery.setState(SurgeryState.EXECUTING.ordinal());
         surgery.setStartTime(System.currentTimeMillis());
         try{
-            surgeryDao.beginSurgery(surgery);
-            return Result.ok();
+            Boolean success=surgeryDao.startSurgery(surgery);
+            if(success==true){
+                return Result.ok();
+            }else {
+                return Result.fail("Not exist");
+            }
         }catch (Exception e){
             return Result.fail(e);
         }
     }
 
-    @RequestMapping("/endSurgery")
+    @RequestMapping("/{surgeryNo}/end")
     @ResponseBody
-    public Result endSurgery(@ModelAttribute("surgery") Surgery surgery){
-        if(surgery==null||surgery.getSurgeryNo()==null){
-            return Result.fail("Null Point");
-        }
+    public Result endSurgery(@PathVariable("surgeryNo")String surgeryNo){
+        Surgery surgery = new Surgery();
+        surgery.setSurgeryNo(surgeryNo);
         surgery.setState(SurgeryState.COMPLETE.ordinal());
         surgery.setEndTime(System.currentTimeMillis());
         try{
-            surgeryDao.endSurgery(surgery);
-            return Result.ok();
+            Boolean success=surgeryDao.endSurgery(surgery);
+            if(success==true){
+                return Result.ok();
+            }else {
+                return Result.fail("Not exist");
+            }
         }catch (Exception e){
             return Result.fail(e);
         }
@@ -126,7 +138,7 @@ public class SurgeryController {
     public Result search(HttpServletRequest request){
         String doctor = request.getParameter("doctor");
         String patient= request.getParameter("patient");
-        Long startTime= System.currentTimeMillis()-DATE_TIME*3;
+        Long startTime= System.currentTimeMillis()-DATE_TIME*30;
         Long endTime = System.currentTimeMillis();
         try {
             if (request.getParameter("timeRange") == null) {
@@ -141,6 +153,16 @@ public class SurgeryController {
         }
         try {
             List<Surgery> surgeryList = surgeryDao.selectSurgeryDynamic(startTime,endTime,doctor,patient);
+            return Result.ok(surgeryList);
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/state/{surgeryState}")
+    @ResponseBody
+    public Result stateSurgery(@PathVariable("surgeryState")Integer surgeryState){
+        try {
+            List<Surgery> surgeryList = surgeryDao.selectSurgeryByState(surgeryState);
             return Result.ok(surgeryList);
         }catch (Exception e){
             return Result.fail(e);

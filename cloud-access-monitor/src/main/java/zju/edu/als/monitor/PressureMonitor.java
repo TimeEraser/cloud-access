@@ -18,8 +18,7 @@ public class PressureMonitor extends BaseMonitor {
 
     @Override
     protected void monitorVerify(DataBase dataBase) {
-        StringBuilder alarmMessage = new StringBuilder();
-        Boolean alarm = false;
+         alarmMessage = new StringBuilder();
         if (dataBase instanceof PressureData) {
             AlarmSetting inBloodPressureAlarmSetting = monitorConfig.getAlarmSetting("inBloodPressure");
             AlarmSetting plasmaInletPressureAlarmSetting = monitorConfig.getAlarmSetting("plasmaInletPressure");
@@ -30,58 +29,38 @@ public class PressureMonitor extends BaseMonitor {
             if (inBloodPressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getInBloodPressure()
                     || plasmaInletPressureAlarmSetting.getFloor() > ((PressureData) dataBase).getInBloodPressure()) {
                 alarmMessage.append("采血压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
             if (plasmaInletPressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getPlasmaInletPressure()
                     || plasmaInletPressureAlarmSetting.getFloor() > ((PressureData) dataBase).getPlasmaInletPressure()) {
                 alarmMessage.append("血浆入口压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
             if (arterialPressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getArterialPressure()
                     || arterialPressureAlarmSetting.getFloor() > ((PressureData) dataBase).getArterialPressure()
                     ) {
                 alarmMessage.append("动脉压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
             if (venousPressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getVenousPressure()
                     || venousPressureAlarmSetting.getFloor() > ((PressureData) dataBase).getVenousPressure()
                     ) {
                 alarmMessage.append("静脉压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
             if (plasmaPressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getPlasmaPressure()
                     || plasmaPressureAlarmSetting.getFloor() > ((PressureData) dataBase).getPlasmaPressure()) {
                 alarmMessage.append("血浆压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
             if (transmembranePressureAlarmSetting.getCeiling() < ((PressureData) dataBase).getTransmembranePressure()
                     || transmembranePressureAlarmSetting.getFloor() > ((PressureData) dataBase).getTransmembranePressure()) {
                 alarmMessage.append("跨膜压数据不在正常范围");
-                alarm = true;
+                needThresholdAlarm = true;
             }
         }
     }
 
 
-    @Override
-    public boolean isAutoStartup() {
-        return true;
-    }
-
-    @Override
-    public void stop(Runnable callback) {
-        callback.run();
-    }
-    
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public boolean isRunning() {
-        return false;
-    }
 
 }

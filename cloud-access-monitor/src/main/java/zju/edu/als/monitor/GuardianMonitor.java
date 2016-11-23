@@ -28,48 +28,24 @@ public class GuardianMonitor extends BaseMonitor{
            if(heartRateAlarmSetting.getCeiling()<((GuardianData) dataBase).getHeartRate()
                    ||heartRateAlarmSetting.getFloor()>((GuardianData) dataBase).getHeartRate()){
                alarmMessage.append("心率数据不在正常范围");
-               alarm=true;
+               needThresholdAlarm=true;
            }
            if(systolicPressureAlarmSetting.getCeiling()<((GuardianData) dataBase).getSystolicPressure()
                    ||systolicPressureAlarmSetting.getFloor()>((GuardianData) dataBase).getSystolicPressure()){
                alarmMessage.append("收缩压数据不在正常范围");
-               alarm=true;
+               needThresholdAlarm=true;
            }
            if(diastolicPressureAlarmSetting.getCeiling()<((GuardianData) dataBase).getDiastolicPressure()
                    ||diastolicPressureAlarmSetting.getFloor()>((GuardianData) dataBase).getDiastolicPressure()
                    ){
                alarmMessage.append("舒张压数据不在正常范围");
-               alarm=true;
+               needThresholdAlarm=true;
            }
            if(bloodOxygenAlarmSetting.getCeiling()<((GuardianData) dataBase).getBloodOxygen()
                ||bloodOxygenAlarmSetting.getFloor()>((GuardianData) dataBase).getBloodOxygen()){
                alarmMessage.append("血氧数据不在正常范围");
-               alarm=true;
+               needThresholdAlarm=true;
            }
        }
     }
-
-
-    @Override
-    public boolean isAutoStartup() {
-        return true;
-    }
-
-    @Override
-    public void stop(Runnable callback) {
-        callback.run();
-    }
-
-   
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public boolean isRunning() {
-        return false;
-    }
-
 }

@@ -39,7 +39,7 @@ public class MonitorConfig implements SmartLifecycle{
         List<AlarmSetting> alarmSettingList=alarmSettingDao.selectAllAlarmSettings();
         for (AlarmSetting alarmSetting:alarmSettingList
              ) {
-            if(alarmSettings.containsKey(alarmSetting.getAlarmItem()))
+            if(!alarmSettings.containsKey(alarmSetting.getAlarmItem()))
             alarmSettings.put(alarmSetting.getAlarmItem(),alarmSetting);
         }
         isRunning=true;
