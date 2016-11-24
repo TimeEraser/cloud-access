@@ -48,9 +48,9 @@ public class SurgeryController {
         }
 
     }
-    @RequestMapping("/newSurgery")
+    @RequestMapping("/create")
     @ResponseBody
-    public Result newSurgery(@ModelAttribute("surgery") Surgery surgery){
+    public Result create(@ModelAttribute("surgery") Surgery surgery){
         if(surgery==null||surgery.getSurgeryNo()==null){
             return Result.fail("Null Point");
         }
@@ -70,7 +70,7 @@ public class SurgeryController {
 
     @RequestMapping("/{surgeryNo}/start")
     @ResponseBody
-    public Result startSurgery(@PathVariable("surgeryNo")String surgeryNo){
+    public Result start(@PathVariable("surgeryNo")String surgeryNo){
         Surgery surgery = new Surgery();
         surgery.setSurgeryNo(surgeryNo);
         surgery.setState(SurgeryState.EXECUTING.ordinal());
@@ -89,7 +89,7 @@ public class SurgeryController {
 
     @RequestMapping("/{surgeryNo}/end")
     @ResponseBody
-    public Result endSurgery(@PathVariable("surgeryNo")String surgeryNo){
+    public Result end(@PathVariable("surgeryNo")String surgeryNo){
         Surgery surgery = new Surgery();
         surgery.setSurgeryNo(surgeryNo);
         surgery.setState(SurgeryState.COMPLETE.ordinal());
@@ -105,9 +105,9 @@ public class SurgeryController {
             return Result.fail(e);
         }
     }
-    @RequestMapping("/updateSurgery")
+    @RequestMapping("/update")
     @ResponseBody
-    public Result updateSurgery(@ModelAttribute("surgery") Surgery surgery){
+    public Result update(@ModelAttribute("surgery") Surgery surgery){
         if(surgery==null||surgery.getSurgeryNo()==null){
             return Result.fail("Null Point");
         }
@@ -118,7 +118,19 @@ public class SurgeryController {
             return Result.fail(e);
         }
     }
-
+    @RequestMapping("/get/{surgeryNo}")
+    @ResponseBody
+    public Result get(@PathVariable("surgeryNo")String surgeryNo){
+        try{
+            Surgery surgery = surgeryDao.selectSurgeryBySurgeryNo(surgeryNo);
+            if(surgery == null){
+                return Result.fail("Not Exist");
+            }
+            return Result.ok(surgery);
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
     @RequestMapping("/persons")
     @ResponseBody
     public Result persons(){
@@ -160,7 +172,7 @@ public class SurgeryController {
     }
     @RequestMapping("/state/{surgeryState}")
     @ResponseBody
-    public Result stateSurgery(@PathVariable("surgeryState")Integer surgeryState){
+    public Result state(@PathVariable("surgeryState")Integer surgeryState){
         try {
             List<Surgery> surgeryList = surgeryDao.selectSurgeryByState(surgeryState);
             return Result.ok(surgeryList);
