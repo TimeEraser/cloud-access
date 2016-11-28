@@ -18,14 +18,10 @@ public abstract class BaseMonitor implements SmartLifecycle{
     protected AlarmCenter alarmCenter;
     @Resource
     protected MonitorConfig monitorConfig;
-    @Resource
-    protected HeartBeat heartBeat;
     protected volatile boolean isRunning = false;
-    protected  Boolean needThresholdAlarm = false;
     public void handleData(DataBase... dataBases){
         for (DataBase dataBase:
              dataBases) {
-            heartBeat.check(dataBase);
             preHandle(dataBase);
             monitorVerify(dataBase);
             postHandle(dataBase);

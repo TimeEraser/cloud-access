@@ -11,6 +11,7 @@
         <module>cloud-access-web</module>
         <module>cloud-access-common</module>
         <module>cloud-access-monitor</module>
+        <module>cloud-access-collector</module>
     </modules>
 
     <packaging>pom</packaging>
