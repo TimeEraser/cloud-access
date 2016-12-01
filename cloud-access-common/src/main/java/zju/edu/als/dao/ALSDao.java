@@ -16,4 +16,6 @@ public interface ALSDao {
     List<ALSData> selectALSDataBySurgeryNo(@Param("surgeryNo") String surgeryNo);
 
     List<ALSData> selectALSDataBySurgeryNoWithTimeRange(@Param("surgeryNo") String surgeryNo,@Param("beginTime") long beginTime,@Param("endTime") long endTime);
+
+    List<ALSData> selectALSDataBySurgeryNoListWithTimeRange(@Param("surgeryNoList") List<String> surgeryNoList,@Param("beginTime") long beginTime,@Param("endTime") long endTime);
 }

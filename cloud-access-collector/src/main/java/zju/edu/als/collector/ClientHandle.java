@@ -53,6 +53,7 @@ public class ClientHandle implements Runnable{
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             while (true) {
                 String dataStr = in.readLine();
+                System.out.println(dataStr);
                 if(dataStr==null){
                     if (clientSurgeryNo!=null) {
                         alarmCenter.sendAlarm(clientSurgeryNo, "服务器与人工肝的断连,请检查网络连接情况");
@@ -60,31 +61,18 @@ public class ClientHandle implements Runnable{
                     break;
                 }
                 try {
-                    if (dataStr.startsWith("INIT")) {
-                        Surgery surgery = JSONObject.parseObject(dataStr.substring(5), Surgery.class);
-                        surgeryDao.insertSurgery(surgery);
-                        this.clientSurgeryNo = surgery.getSurgeryNo();
-                    }
                     if (dataStr.startsWith("START")) {
-                        String surgeryNo = dataStr.substring(6);
-                        Surgery surgery = new Surgery();
-                        surgery.setSurgeryNo(surgeryNo);
-                        surgery.setStartTime(System.currentTimeMillis());
-                        surgery.setState(SurgeryState.EXECUTING.ordinal());
-                        this.clientSurgeryNo = surgery.getSurgeryNo();
+                        Surgery surgery = JSONObject.parseObject(dataStr.substring(6), Surgery.class);
                         surgeryDao.startSurgery(surgery);
+                        this.clientSurgeryNo = surgery.getSurgeryNo();
                     }
                     if (dataStr.startsWith("DATA")) {
-                        ALSData alsData = JSONObject.parseObject(dataStr.substring(4), ALSData.class);
+                        ALSData alsData = JSONObject.parseObject(dataStr.substring(5), ALSData.class);
                         this.clientSurgeryNo = alsData.getSurgeryNo();
                         alsDao.insertALSData(alsData);
                     }
                     if (dataStr.startsWith("END")) {
-                        String surgeryNo = dataStr.substring(4);
-                        Surgery surgery = new Surgery();
-                        surgery.setSurgeryNo(surgeryNo);
-                        surgery.setEndTime(System.currentTimeMillis());
-                        surgery.setState(SurgeryState.COMPLETE.ordinal());
+                        Surgery surgery = JSONObject.parseObject(dataStr.substring(4), Surgery.class);
                         surgeryDao.endSurgery(surgery);
                         this.clientSurgeryNo = surgery.getSurgeryNo();
                         break;

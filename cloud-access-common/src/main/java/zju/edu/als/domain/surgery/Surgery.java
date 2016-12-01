@@ -15,6 +15,7 @@ public class Surgery {
     private String description;
     private int state;
     private String alarmPerson;
+    private int surgeryType;
     private long lastAlarm;
 
     public int getId() {
@@ -103,6 +104,14 @@ public class Surgery {
 
     public void setAlarmPerson(String alarmPerson) {
         this.alarmPerson = alarmPerson;
+    }
+
+    public int getSurgeryType() {
+        return surgeryType;
+    }
+
+    public void setSurgeryType(int surgeryType) {
+        this.surgeryType = surgeryType;
     }
 
     public long getLastAlarm() {

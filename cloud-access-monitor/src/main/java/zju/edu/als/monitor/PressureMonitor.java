@@ -1,10 +1,8 @@
 package zju.edu.als.monitor;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import zju.edu.als.domain.alarm.AlarmSetting;
 import zju.edu.als.domain.data.DataBase;
-import zju.edu.als.domain.data.PressureData;
 
 /**
  * Created by zzq on 2016/10/29.

@@ -10,8 +10,6 @@ import java.util.List;
  */
 public interface SurgeryDao {
 
-    public boolean insertSurgery(@Param("surgery")Surgery surgery);
-
     public boolean updateSurgery(@Param("surgery")Surgery surgery);
 
     public boolean startSurgery(@Param("surgery")Surgery surgery);

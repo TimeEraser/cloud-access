@@ -48,25 +48,6 @@ public class SurgeryController {
         }
 
     }
-    @RequestMapping("/create")
-    @ResponseBody
-    public Result create(@ModelAttribute("surgery") Surgery surgery){
-        if(surgery==null||surgery.getSurgeryNo()==null){
-            return Result.fail("Null Point");
-        }
-        surgery.setState(SurgeryState.INIT.ordinal());
-        try{
-            Boolean success=surgeryDao.insertSurgery(surgery);
-            if(success==true){
-                return Result.ok();
-            }else {
-                return Result.fail("Not exist");
-            }
-
-        }catch (Exception e){
-            return Result.fail(e);
-        }
-    }
 
     @RequestMapping("/{surgeryNo}/start")
     @ResponseBody
@@ -165,16 +146,6 @@ public class SurgeryController {
         }
         try {
             List<Surgery> surgeryList = surgeryDao.selectSurgeryDynamic(startTime,endTime,doctor,patient);
-            return Result.ok(surgeryList);
-        }catch (Exception e){
-            return Result.fail(e);
-        }
-    }
-    @RequestMapping("/state/{surgeryState}")
-    @ResponseBody
-    public Result state(@PathVariable("surgeryState")Integer surgeryState){
-        try {
-            List<Surgery> surgeryList = surgeryDao.selectSurgeryByState(surgeryState);
             return Result.ok(surgeryList);
         }catch (Exception e){
             return Result.fail(e);

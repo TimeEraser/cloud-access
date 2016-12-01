@@ -18,7 +18,20 @@
         <result column="alarmPerson" property="alarmPerson" jdbcType="VARCHAR"/>
         <result column="lastAlarm" property="lastAlarm" jdbcType="BIGINT"/>
     </resultMap>
-    <insert id="insertSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
+    <update id="updateSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
+        UPDATE
+        surgery
+        SET
+        patient=#{surgery.patient},
+        patientId=#{surgery.patient},
+        doctor=#{surgery.patient},
+        doctorId=#{surgery.patient},
+        description=#{surgery.patient},
+        alarmPerson=#{surgery.patient},
+        WHERE
+        surgeryNo=#{surgery.surgeryNo}
+    </update>
+    <insert id="startSurgery"  parameterType="zju.edu.als.domain.surgery.Surgery">
         INSERT INTO
         surgery(
           surgeryNo,
@@ -43,28 +56,6 @@
           #{surgery.lastAlarm}
         )
     </insert>
-    <update id="updateSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
-        UPDATE
-        surgery
-        SET
-        patient=#{surgery.patient},
-        patientId=#{surgery.patient},
-        doctor=#{surgery.patient},
-        doctorId=#{surgery.patient},
-        description=#{surgery.patient},
-        alarmPerson=#{surgery.patient},
-        WHERE
-        surgeryNo=#{surgery.surgeryNo}
-    </update>
-    <update id="startSurgery"  parameterType="zju.edu.als.domain.surgery.Surgery">
-        UPDATE
-        surgery
-        SET
-        state = #{surgery.state},
-        startTime = #{surgery.startTime}
-        WHERE
-        surgeryNo = #{surgery.surgeryNo}
-    </update>
     <update id="endSurgery" parameterType="zju.edu.als.domain.surgery.Surgery">
         UPDATE
         surgery

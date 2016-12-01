@@ -12,6 +12,7 @@
     <artifactId>cloud-access-monitor</artifactId>
     <properties>
         <config.version>1.10</config.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>

@@ -16,5 +16,7 @@ public interface GuardianDao {
     List<GuardianData> selectGuardianDataBySurgeryNo(@Param("surgeryNo") String surgeryNo);
 
     List<GuardianData> selectGuardianDataBySurgeryNoWithTimeRange(@Param("surgeryNo") String surgeryNo,@Param("beginTime") long beginTime,@Param("endTime") long endTime);
+
+    List<GuardianData> selectGuardianDataBySurgeryNoListWithTimeRange(@Param("surgeryNoList") List<String> surgeryNoList,@Param("beginTime") long beginTime,@Param("endTime") long endTime);
     
 }

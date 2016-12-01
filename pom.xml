@@ -12,6 +12,7 @@
         <module>cloud-access-common</module>
         <module>cloud-access-monitor</module>
         <module>cloud-access-collector</module>
+        <module>cloud-access-client</module>
     </modules>
 
     <packaging>pom</packaging>

@@ -193,4 +193,22 @@
         ORDER BY
         timestamp
     </select>
+    <select id="selectALSDataBySurgeryNoListWithTimeRange" parameterType="java.util.Map" resultMap="ALSData">
+        SELECT
+        <include refid="ALSDataColumn"/>
+        FROM
+        ALSData
+        WHERE
+        surgeryNo in
+        <foreach collection="surgeryNoList" item="surgeryNo" index="index" open="(" close=")" separator=",">
+            #{surgeryNo}
+        </foreach>
+        AND
+        timestamp &gt; #{beginTime}
+        AND
+        timestamp &lt; #{endTime}
+        ORDER BY
+        timestamp
+    </select>
+
 </mapper>

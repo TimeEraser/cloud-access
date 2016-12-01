@@ -73,4 +73,22 @@
         ORDER BY
         timestamp
     </select>
+    <select id="selectGuardianDataBySurgeryNoListWithTimeRange" parameterType="java.util.Map" resultMap="GuardianData">
+        SELECT
+        <include refid="GuardianDataColumn"/>
+        FROM
+        guardianData
+        WHERE
+        surgeryNo IN
+        <foreach collection="surgeryNoList" item="surgeryNo" index="index" open="(" close=")" separator=",">
+            #{surgeryNo}
+        </foreach>
+        AND
+        timestamp &gt; #{beginTime}
+        AND
+        timestamp &lt; #{endTime}
+        ORDER BY
+        timestamp
+    </select>
+
 </mapper>

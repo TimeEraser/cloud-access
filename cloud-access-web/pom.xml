@@ -9,7 +9,9 @@
     </parent>
     <packaging>war</packaging>
     <modelVersion>4.0.0</modelVersion>
-
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
     <artifactId>cloud-access-web</artifactId>
     <dependencies>
         <dependency>
