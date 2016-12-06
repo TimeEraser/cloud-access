@@ -49,6 +49,7 @@ public class ServerHandle implements Runnable{
         while (true) {
             try {
                 Socket client = serverSocket.accept();
+                client.setKeepAlive(true);
                 executorService.execute(new ClientHandle(alsDao, surgeryDao, guardianDao, alsMonitor, guardianMonitor, alarmCenter, client));
             } catch (IOException e) {
 

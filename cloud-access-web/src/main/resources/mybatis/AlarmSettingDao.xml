@@ -25,6 +25,7 @@
     </select>
 
     <update id="updateAlarmSettings" parameterType="java.util.List">
+        <foreach collection="alarmSettingList" item="alarmSetting" index="index"  separator=";">
         UPDATE
         alarmSetting
         SET
@@ -33,9 +34,7 @@
         note=#{alarmSetting.note},
         type=#{alarmSetting.type}
         WHERE
-        alarmItem IN
-        <foreach collection="alarmSettingList" item="alarmSetting" index="index" open="(" close=")" separator=",">
-            #{alarmSetting.alarmItem}
+        alarmItem = #{alarmSetting.alarmItem}
         </foreach>
     </update>
 

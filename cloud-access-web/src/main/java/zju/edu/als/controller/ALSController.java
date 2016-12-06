@@ -117,8 +117,8 @@ public class ALSController {
         long endTime;
         try{
             String[] times=timeRange.split("~");
-            beginTime= DateFormatUtil.parse(times[0]);
-            endTime= DateFormatUtil.parse(times[1]);
+            beginTime= DateFormatUtil.parseTime(times[0]);
+            endTime= DateFormatUtil.parseTime(times[1]);
         } catch (ParseException e) {
             logger.error(timeRange +"parse exception");
             return Result.fail(e);

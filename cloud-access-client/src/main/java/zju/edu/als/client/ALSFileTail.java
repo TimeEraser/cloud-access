@@ -47,10 +47,11 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
                 }
                 if (fileLength > filePointer) {    
                     raf.seek(filePointer);
-                    String line = raf.readLine();
-                    while (line != null) {    
+                    String lineISO=raf.readLine();
+                    while (lineISO != null) {
+                        String line = new String(lineISO.getBytes("ISO-8859-1"),"utf-8");
                         DataSenderManager.sendData(line);
-                        line = raf.readLine();
+                        lineISO = raf.readLine();
                     }
                     filePointer = raf.getFilePointer();
                 }

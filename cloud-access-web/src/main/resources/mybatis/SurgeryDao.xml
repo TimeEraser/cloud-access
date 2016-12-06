@@ -24,12 +24,12 @@
         surgery
         SET
         patient=#{surgery.patient},
-        patientId=#{surgery.patient},
-        doctor=#{surgery.patient},
-        doctorId=#{surgery.patient},
-        description=#{surgery.patient},
+        patientId=#{surgery.patientId},
+        doctor=#{surgery.doctor},
+        doctorId=#{surgery.doctorId},
+        description=#{surgery.description},
         type=#{surgery.type},
-        alarmPerson=#{surgery.patient}
+        alarmPerson=#{surgery.alarmPerson}
         WHERE
         surgeryNo=#{surgery.surgeryNo}
     </update>

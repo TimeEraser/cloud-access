@@ -23,7 +23,8 @@ public class DataSenderManager {
         while (socket==null) {
             try {
                 socket = new Socket(host, port);
-                out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                socket.setKeepAlive(true);
+                out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"));
             } catch (IOException e) {
                 logger.error("build socket connect failed", e);
                 try {
@@ -43,7 +44,9 @@ public class DataSenderManager {
             out.flush();
         } catch (IOException e) {
             logger.error("socket Connect lost send data failed",e);
+            socket=null;
             buildSocketConnect(host,port);
+            sendData(data);
         }
     }
     public static void closeSocketConnect(){

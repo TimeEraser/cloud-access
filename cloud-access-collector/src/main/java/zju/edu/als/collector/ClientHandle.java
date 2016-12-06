@@ -50,7 +50,7 @@ public class ClientHandle implements Runnable{
     public void run() {
         BufferedReader in= null;
         try {
-            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(client.getInputStream(),"utf-8"));
             while (true) {
                 String dataStr = in.readLine();
                 System.out.println(dataStr);
@@ -61,8 +61,9 @@ public class ClientHandle implements Runnable{
                     break;
                 }
                 try {
-                    if (dataStr.startsWith("START")) {
-                        Surgery surgery = JSONObject.parseObject(dataStr.substring(6), Surgery.class);
+                    if (dataStr.contains("START")) {
+                        Surgery surgery = JSONObject.parseObject(dataStr.substring(dataStr.indexOf("START")+6), Surgery.class);
+                        surgery.setState(SurgeryState.EXECUTING.ordinal());
                         surgeryDao.startSurgery(surgery);
                         this.clientSurgeryNo = surgery.getSurgeryNo();
                     }
@@ -73,6 +74,7 @@ public class ClientHandle implements Runnable{
                     }
                     if (dataStr.startsWith("END")) {
                         Surgery surgery = JSONObject.parseObject(dataStr.substring(4), Surgery.class);
+                        surgery.setState(SurgeryState.COMPLETE.ordinal());
                         surgeryDao.endSurgery(surgery);
                         this.clientSurgeryNo = surgery.getSurgeryNo();
                         break;
