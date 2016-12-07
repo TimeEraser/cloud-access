@@ -33,7 +33,7 @@ public class Main {
         if (ALSDataIndexFile.exists()) {
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(ALSDataIndexFile)));
-                ALSDataFileStart = Long.valueOf(br.readLine());
+                ALSDataFileStart = Long.valueOf(br.readLine().trim());
             } catch (Exception e) {
 
             }
@@ -41,7 +41,7 @@ public class Main {
         ALSFileTailConfig alsFileTailConfig = new ALSFileTailConfig();
         alsFileTailConfig.setALSDataFile(ALSDataFile);
         alsFileTailConfig.setALSDataFilePoint(ALSDataFileStart);
-        AbstractApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         context.getBean(ALSFileTail.class).setConfig(alsFileTailConfig);
         context.registerShutdownHook();
     }

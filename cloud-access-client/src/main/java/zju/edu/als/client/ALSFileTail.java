@@ -19,6 +19,7 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
     private long filePointer;
     private ExecutorService executorService;
     private boolean isConfigInit=false;
+    private RandomAccessFile ALSDataOffsetFile;
     public ALSFileTail(){
         executorService= Executors.newSingleThreadExecutor();
     }
@@ -37,6 +38,11 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
                 break;
             }
         }
+        try {
+            ALSDataOffsetFile= new RandomAccessFile(ALSDataFile.getParent()+"/"+SURGERY_DATA_OFFSET,"rw");
+        } catch (FileNotFoundException e) {
+
+        }
         try {    
             RandomAccessFile raf ;
             while (isConfigInit) {
@@ -51,6 +57,9 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
                     while (lineISO != null) {
                         String line = new String(lineISO.getBytes("ISO-8859-1"),"utf-8");
                         DataSenderManager.sendData(line);
+                        filePointer = raf.getFilePointer();
+                        ALSDataOffsetFile.seek(0);
+                        ALSDataOffsetFile.write(String.format("%20d",filePointer).getBytes());
                         lineISO = raf.readLine();
                     }
                     filePointer = raf.getFilePointer();
@@ -58,6 +67,7 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
                 try {
                     Thread.currentThread().sleep(IDLE_SLEEP_INTERVAL);
                 } catch (InterruptedException e) {
+                    logger.info("break");
                     raf.close();
                     break;
                 }
@@ -88,11 +98,7 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
     @Override
     public void stop() {
         try {
-            RandomAccessFile ALSDataOffsetFile = new RandomAccessFile(ALSDataFile.getParent()+"/"+SURGERY_DATA_OFFSET,"rw");
-            ALSDataOffsetFile.write(String.valueOf(filePointer).getBytes());
             ALSDataOffsetFile.close();
-        } catch (FileNotFoundException e) {
-
         } catch (IOException e) {
 
         }
