@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class GeneralData {
     String surgeryNo;
-    List<ALSData> alsDataList;
+    ALSData alsData;
     List<GuardianData> guardianDataList;
 
     public String getSurgeryNo() {
@@ -18,12 +18,12 @@ public class GeneralData {
         this.surgeryNo = surgeryNo;
     }
 
-    public List<ALSData> getAlsDataList() {
-        return alsDataList;
+    public ALSData getAlsData() {
+        return alsData;
     }
 
-    public void setAlsDataList(List<ALSData> alsDataList) {
-        this.alsDataList = alsDataList;
+    public void setAlsData(ALSData alsData) {
+        this.alsData = alsData;
     }
 
     public List<GuardianData> getGuardianDataList() {

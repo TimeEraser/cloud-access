@@ -83,7 +83,7 @@ public class CurrentStateController {
         for(String surgeryNo:surgeryNoList){
             GeneralData generalData = new GeneralData();
             generalData.setSurgeryNo(surgeryNo);
-            generalData.setAlsDataList(new ArrayList<ALSData>());
+            generalData.setAlsData(new ALSData());
             generalData.setGuardianDataList(new ArrayList<GuardianData>());
             generalDataMap.put(surgeryNo,generalData);
         }
@@ -94,19 +94,31 @@ public class CurrentStateController {
         long endTime;
         try{
             String[] times=timeRange.split("~");
-            beginTime= DateFormatUtil.parse(times[0]);
-            endTime= DateFormatUtil.parse(times[1]);
+            beginTime= DateFormatUtil.parseTime(times[0]);
+            endTime= DateFormatUtil.parseTime(times[1]);
         } catch (ParseException e) {
             logger.error(timeRange +"parse exception");
             return Result.fail(e);
         }
         List<ALSData> alsDataList=alsDao.selectALSDataBySurgeryNoListWithTimeRange(surgeryNoList,beginTime,endTime);
         List<GuardianData> guardianDataList=guardianDao.selectGuardianDataBySurgeryNoListWithTimeRange(surgeryNoList,beginTime,endTime);
+        Map<String,List<ALSData>> alsDataListMap = new HashMap<>();
         for(ALSData alsData:alsDataList){
-            String surgeryNo = alsData.getSurgeryNo();
-            if(generalDataMap.containsKey(surgeryNo)){
-                generalDataMap.get(surgeryNo).getAlsDataList().add(alsData);
+           if(!alsDataListMap.containsKey(alsData.getSurgeryNo())){
+               alsDataListMap.put(alsData.getSurgeryNo(),new ArrayList<ALSData>());
+           }
+           alsDataListMap.get(alsData.getSurgeryNo()).add(alsData);
+        }
+        for(String surgeryNo:alsDataListMap.keySet()){
+            long alsDataTimestampTemp=0;
+            ALSData alsDataTemp=new ALSData();
+            for(ALSData alsData:alsDataListMap.get(surgeryNo)){
+                if(alsData.getTimestamp()>alsDataTimestampTemp){
+                    alsDataTemp=alsData;
+                    alsDataTimestampTemp=alsData.getTimestamp();
+                }
             }
+            generalDataMap.get(surgeryNo).setAlsData(alsDataTemp);
         }
         for(GuardianData guardianData:guardianDataList){
             String surgeryNo = guardianData.getSurgeryNo();
