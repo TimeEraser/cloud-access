@@ -37,6 +37,7 @@
         INSERT INTO
         surgery(
           surgeryNo,
+          startTime,
           patient,
           patientId,
           doctor,
@@ -49,6 +50,7 @@
           )
         VALUE (
           #{surgery.surgeryNo},
+          #{surgery.startTime},
           #{surgery.patient},
           #{surgery.patientId},
           #{surgery.doctor},

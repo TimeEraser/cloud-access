@@ -64,6 +64,7 @@ public class ClientHandle implements Runnable{
                     if (dataStr.contains("START")) {
                         Surgery surgery = JSONObject.parseObject(dataStr.substring(dataStr.indexOf("START")+6), Surgery.class);
                         surgery.setState(SurgeryState.EXECUTING.ordinal());
+                        surgery.setStartTime(System.currentTimeMillis());
                         surgeryDao.startSurgery(surgery);
                         this.clientSurgeryNo = surgery.getSurgeryNo();
                     }
@@ -75,9 +76,9 @@ public class ClientHandle implements Runnable{
                     if (dataStr.startsWith("END")) {
                         Surgery surgery = JSONObject.parseObject(dataStr.substring(4), Surgery.class);
                         surgery.setState(SurgeryState.COMPLETE.ordinal());
+                        surgery.setEndTime(System.currentTimeMillis());
                         surgeryDao.endSurgery(surgery);
                         this.clientSurgeryNo = surgery.getSurgeryNo();
-                        break;
                     }
                 }catch (Exception e){
                     logger.error("Data Handle Exception",e);

@@ -139,7 +139,7 @@ public class SurgeryController {
             } else {
                 String[] timeRangeStr= request.getParameter("timeRange").split("~");
                 startTime=  DateFormatUtil.parse(timeRangeStr[0]);
-                endTime = DateFormatUtil.parse(timeRangeStr[1]);
+                endTime = DateFormatUtil.parse(timeRangeStr[1])+DateFormatUtil.DATE_TIME;
             }
         } catch (Exception e) {
             logger.error("解析前端timeRange失败,使用默认配置",e);

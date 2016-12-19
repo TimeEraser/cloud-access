@@ -9,6 +9,7 @@ public class Result implements Serializable{
     private static final long serialVersionUID = 1L;
     private boolean success;
     private String message;
+    private Integer code;
     private Object data;
 
     public Result() {
@@ -18,11 +19,13 @@ public class Result implements Serializable{
     public Result(Object data) {
         this.success = true;
         this.data = data;
+        this.code=200;
     }
 
-    public Result(boolean success, String message) {
+    public Result(boolean success, Integer code,String message) {
         super();
         this.success = success;
+        this.code=code;
         if (message != null) {
             this.message = message;
         }
@@ -40,14 +43,20 @@ public class Result implements Serializable{
     }
 
     public static Result okMsg(String message) {
-        return new Result(true, message);
+        return new Result(true, 200,message);
     }
 
     public static Result fail(String msg) {
         if (msg == null) {
             msg = "NullPointException";
         }
-        return new Result(false, msg);
+        return new Result(false,500,msg);
+    }
+    public static Result fail(Integer code,String msg){
+        if (msg == null) {
+            msg = "NullPointException";
+        }
+        return new Result(false,302,msg);
     }
 
     public static Result fail(Throwable throwable) {
@@ -73,8 +82,17 @@ public class Result implements Serializable{
         }
     }
 
-    public void setAll(boolean success, String message) {
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public void setAll(boolean success, Integer code, String message) {
         this.success = success;
+        this.code=code;
         if (message != null) {
             this.message = message;
         }

@@ -30,7 +30,7 @@ public class Main {
         File ALSDataFile = getALSDataFile(dataRootPath);
         File ALSDataIndexFile = new File(dataRootPath, SURGERY_DATA_OFFSET);
         long ALSDataFileStart = 0;
-        if (ALSDataIndexFile.exists()) {
+        if (ALSDataIndexFile.exists()){
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(ALSDataIndexFile)));
                 ALSDataFileStart = Long.valueOf(br.readLine().trim());
@@ -49,7 +49,8 @@ public class Main {
         File file = new File(dataRootPath,SURGERY_DATA_FILE_NAME);
         while (!file.exists()){
             try {
-                Thread.currentThread().sleep(1000);
+                Thread.currentThread().sleep(10000);
+                System.out.println("Not Find Data File");
             } catch (InterruptedException e) {
 
             }
