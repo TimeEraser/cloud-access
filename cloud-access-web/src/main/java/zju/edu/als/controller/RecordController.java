@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by zzq on 2016/12/19.
@@ -81,6 +82,16 @@ public class RecordController {
         try {
             medicalRecordDao.deleteMedicalRecord(medicalRecord);
             return Result.ok();
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/all")
+    @ResponseBody
+    public Result all(){
+        try {
+            List<MedicalRecord> medicalRecordList=medicalRecordDao.selectAllMedicalRecord();
+            return Result.ok(medicalRecordList);
         }catch (Exception e){
             return Result.fail(e);
         }
