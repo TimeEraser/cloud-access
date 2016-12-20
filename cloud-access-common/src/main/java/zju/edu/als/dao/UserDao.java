@@ -15,4 +15,7 @@ public interface UserDao {
     public List<User> selectDynamic(@Param("userName")String userName,
                              @Param("password")String password,
                              @Param("role")String role);
+    public boolean updateUser(@Param("userName")String userName,
+                          @Param("password")String password,
+                          @Param("role")String role);
 }

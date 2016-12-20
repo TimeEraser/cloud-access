@@ -34,6 +34,15 @@
         user
         WHERE 1=1;
     </select>
+    <update id="updateUser" parameterType="java.util.Map">
+        UPDATE FROM
+        user
+        SET
+        password=#{password},
+        role=#{role}
+        WHERE
+        userName=#{userName}
+    </update>
     <select id="selectDynamic" parameterType="java.util.Map" resultMap="User">
         SELECT
         <include refid="UserColumn"/>

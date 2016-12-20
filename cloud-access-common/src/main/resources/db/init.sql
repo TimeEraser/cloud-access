@@ -68,4 +68,20 @@ CREATE TABLE `surgery` (
   `lastAlarm` bigint(20) NOT NULL DEFAULT '0' COMMENT '上次报警时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `surgeryNo` (`surgeryNo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS user;
+CREATE TABLE user(
+  userId bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  userName VARCHAR(255) NOT NULL COMMENT '用户名',
+  password VARCHAR(255) NOT NULL COMMENT '密码',
+  role VARCHAR(64) NOT NULL COMMENT '用户角色',
+  PRIMARY KEY(userId)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+INSERT INTO user(userName, password, role) VALUE ("zhengzhiqi","zzqshyk","admin");
+DROP TABLE IF EXISTS authority;
+CREATE TABLE authority(
+  authorityId bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  role INT NOT NULL COMMENT '用户角色',
+  authorities VARCHAR(64) NOT NULL COMMENT '用户权限',
+  PRIMARY KEY (authorityId)
+)ENGINE=InnoDB  DEFAULT CHARSET=utf8;

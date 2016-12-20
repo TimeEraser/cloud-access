@@ -42,6 +42,28 @@ public class UserController {
         }
 
     }
+    @RequestMapping("/update")
+    @ResponseBody
+    public Result update(@RequestParam(value = "userName")String userName,
+                         @RequestParam(value = "password")String password,
+                         @RequestParam(value = "role")String role){
+        try {
+            userDao.updateUser(userName,password,role);
+            return Result.ok();
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
+    @RequestMapping("/search")
+    @ResponseBody
+    public Result search(@RequestParam(value = "userName",required = true)String userName){
+        try {
+            List<User> userList=userDao.selectDynamic(userName,null,null);
+            return Result.ok(userList);
+        }catch (Exception e){
+            return Result.fail(e);
+        }
+    }
     @RequestMapping("/logout")
     @ResponseBody
     public Result out(HttpServletResponse response){
