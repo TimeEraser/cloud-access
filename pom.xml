@@ -13,6 +13,7 @@
         <module>cloud-access-monitor</module>
         <module>cloud-access-collector</module>
         <module>cloud-access-client</module>
+        <module>cloud-access-bridge</module>
     </modules>
 
     <packaging>pom</packaging>

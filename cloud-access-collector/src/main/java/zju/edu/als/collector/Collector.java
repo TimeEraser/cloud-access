@@ -53,7 +53,7 @@ public class Collector implements SmartLifecycle{
     @Override
     public void start() {
         executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(new ServerHandle(alsDao, surgeryDao, guardianDao, alsMonitor, guardianMonitor, alarmCenter, 9203));
+        executorService.execute(new ServerHandle(alsDao, surgeryDao, guardianDao, alsMonitor, guardianMonitor, alarmCenter, 9204));
         isRunning=true;
     }
 
