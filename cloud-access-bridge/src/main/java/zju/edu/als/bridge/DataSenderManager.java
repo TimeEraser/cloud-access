@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -15,6 +17,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class DataSenderManager {
     private static final Logger logger = LoggerFactory.getLogger(DataSenderManager.class);
+    public static LinkedBlockingQueue<String> messages=new LinkedBlockingQueue<>();
     private static String host;
     private static Integer port;
     private static Socket socket;
@@ -39,15 +42,20 @@ public class DataSenderManager {
             }
         }
     }
-    public static void sendData(BlockingQueue<String> messages){
-        while (true) {
-            try {
-                String message = messages.take();
-                sendMessage(message);
-            } catch (InterruptedException e) {
-                break;
+    public static void sendData(){
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        String message = messages.take();
+                        sendMessage(message);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
             }
-        }
+        });
     }
 
     public static void sendMessage(String message) {
