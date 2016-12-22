@@ -23,14 +23,16 @@ public class GuardianDaoTest {
 
     @Test
     public void insertTest(){
-        GuardianData guardianData = new GuardianData();
-        guardianData.setSurgeryNo("19920327");
-        guardianData.setTimestamp(System.currentTimeMillis());
-        guardianData.setBloodOxygen(1);
-        guardianData.setDiastolicPressure(1);
-        guardianData.setHeartRate(1);
-        guardianData.setSystolicPressure(1);
-        guardianDao.insertGuardianData(guardianData);
+        for(int i =0;i<100;i++) {
+            GuardianData guardianData = new GuardianData();
+            guardianData.setSurgeryNo("161202162548");
+            guardianData.setTimestamp(System.currentTimeMillis()+i*1000);
+            guardianData.setBloodOxygen(75 + (int) (Math.random() * 5));
+            guardianData.setDiastolicPressure(80+ (int) (Math.random() * 5));
+            guardianData.setHeartRate(80 + (int) (Math.random() * 5));
+            guardianData.setSystolicPressure(130 + (int) (Math.random() * 5));
+            guardianDao.insertGuardianData(guardianData);
+        }
     }
 
     @Test
