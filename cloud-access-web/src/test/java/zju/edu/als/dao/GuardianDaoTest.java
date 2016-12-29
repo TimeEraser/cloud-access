@@ -1,6 +1,8 @@
 package zju.edu.als.dao;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.abel533.echarts.Option;
+import com.github.abel533.echarts.series.Line;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -67,5 +69,8 @@ public class GuardianDaoTest {
     public void selectBySurgeryNoWithTimeRangeTest(){
         List<GuardianData> guardianDataList = guardianDao.selectGuardianDataBySurgeryNoWithTimeRange("19920327",new Long("1478683015393"),new Long("1478683015396"));
         System.out.println(JSONObject.toJSON(guardianDataList));
+    }
+    @Test
+    public void test(){
     }
 }

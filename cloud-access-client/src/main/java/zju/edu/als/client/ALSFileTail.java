@@ -44,14 +44,14 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
 
         }
         try {    
-            RandomAccessFile raf ;
+            RandomAccessFile raf=null ;
             while (isConfigInit) {
                 long fileLength = this.ALSDataFile.length();
-                raf = new RandomAccessFile(ALSDataFile, "r");
                 if(filePointer > fileLength){
                     filePointer=0;
                 }
-                if (fileLength > filePointer) {    
+                if (fileLength > filePointer) {
+                    raf = new RandomAccessFile(ALSDataFile, "r");
                     raf.seek(filePointer);
                     String lineISO=raf.readLine();
                     while (lineISO != null) {
@@ -64,11 +64,14 @@ public class ALSFileTail implements Runnable ,SmartLifecycle{
                     }
                     filePointer = raf.getFilePointer();
                 }
+                System.out.println("F:"+fileLength);
                 try {
                     Thread.currentThread().sleep(IDLE_SLEEP_INTERVAL);
                 } catch (InterruptedException e) {
                     logger.info("break");
-                    raf.close();
+                    if(raf!=null) {
+                        raf.close();
+                    }
                     break;
                 }
             }    

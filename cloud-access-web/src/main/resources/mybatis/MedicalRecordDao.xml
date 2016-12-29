@@ -19,12 +19,10 @@
     </sql>
     <insert id="insertMedicalRecord" parameterType="zju.edu.als.domain.record.MedicalRecord">
         INSERT INTO
-        medicalRecord(inpatientNum,patient,complications,path,state)
+        medicalRecord(inpatientNum,patient,state)
         VALUE
         (#{medicalRecord.inpatientNum},
         #{medicalRecord.patient},
-        #{medicalRecord.complications},
-        #{medicalRecord.path},
         #{medicalRecord.state})
     </insert>
     <delete id="deleteMedicalRecord" parameterType="zju.edu.als.domain.record.MedicalRecord">
